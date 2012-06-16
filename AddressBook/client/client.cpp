@@ -23,18 +23,18 @@
   */
 void input_section(){
   memset(input,'\0',sizeof(input));
-  gets(input);
-
-  if(!strlen(input)){
-    no_input="no_input";
-    result=write(sockfd, no_input, strlen(no_input));
+  fgets(input,sizeof(input),stdin);
+  if (strchr(input, '\n') != NULL) {
+    input[strlen(input) - 1] = '\0';
   }
-
+  if(!(strlen(input))){
+    no_input="no_input";
+    write(sockfd, no_input, strlen(no_input));
+  }
   else {
-    result=write(sockfd, input, strlen(input));
+    write(sockfd, input, strlen(input));
   }
   if (strcmp(input,"!quit")==0){
-    write(sockfd, input, strlen(input));
     close(sockfd);
     exit(0);
   }
